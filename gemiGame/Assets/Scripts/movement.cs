@@ -4,34 +4,67 @@ using UnityEngine;
 
 public class movement : MonoBehaviour
 {
-
-    
-    public Rigidbody rb; 
-    public float speed = 10;
-
-
-
-    void Start()
-    {
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public Rigidbody rb;
+    float speed;
 
     void FixedUpdate()
     {
         Move();
     }
 
-    public void Move()
+    void Move()
     {
-        float xMove = Input.GetAxis("Horizontal") * speed * Time.fixedDeltaTime;
-        float zMove = Input.GetAxis("Vertical") * speed * Time.fixedDeltaTime;
+        rb.velocity = new Vector3(rb.velocity.x, rb.velocity.y, rb.velocity.z + speed);
 
-        Vector3 move = transform.right * xMove + transform.forward * zMove;
-        rb.velocity = move;
+        if (speed == 0f && Input.GetKey(KeyCode.W))
+        {
+            speed = 2f;
+        }
+
+        else if (Input.GetKey(KeyCode.W))
+        {
+            speed = speed * 2;
+        }
+
+        else if (speed == 12f && Input.GetKey(KeyCode.W))
+        {
+            speed = -3;
+        }
+
+        if (speed == 0f && Input.GetKey(KeyCode.S))
+        {
+            speed = -3;
+        }
+
+        else if (Input.GetKey(KeyCode.S) && speed > 0)
+        {
+            speed = speed / 2;
+        }
+
+        else if (speed < 0 && Input.GetKey(KeyCode.S))
+        {
+            speed = -3;
+        }
+
+        if (Input.GetKey(KeyCode.Space))
+        {
+            if (speed < 0)
+            {
+                while (speed < 0)
+                {
+                    speed = speed + 0.5f;
+                }
+                
+            }
+
+            if (speed > 0)
+            {
+                while (speed > 0)
+                {
+                    speed = speed -0.5f;
+                }
+            }
+        }
     }
+    
 }
